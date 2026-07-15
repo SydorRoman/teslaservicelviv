@@ -1,0 +1,22 @@
+<!--
+  PLACEHOLDER: service-centre logo mark.
+
+  Deliberately an ORIGINAL mark (bolt inside a rounded hex) + a plain wordmark.
+  It is intentionally NOT a copy of Tesla, Inc.'s "T" logo — an independent
+  repair shop may use the word "Tesla" nominatively to say what it services,
+  but reproducing Tesla's logo mark implies affiliation. See the disclaimer in
+  the site footer.
+
+  Animation target: js/intro.js fades/scales the whole <svg> via .intro__logo.
+  Replace freely — no IDs are referenced by JS.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 64" fill="none" role="img"
+     aria-label="Tesla Service Lviv">
+  <path d="M30 4 L52 17 V43 L30 56 L8 43 V17 Z" stroke="#E82127" stroke-width="2.5"
+        stroke-linejoin="round"/>
+  <path d="M33 16 L22 32 H30 L27 48 L38 30 H30 Z" fill="#E82127"/>
+  <text x="72" y="29" fill="#F5F5F7" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif"
+        font-size="20" font-weight="600" letter-spacing="3.5">TESLA SERVICE</text>
+  <text x="72" y="48" fill="#86868B" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif"
+        font-size="13" font-weight="500" letter-spacing="7.5">LVIV</text>
+</svg>

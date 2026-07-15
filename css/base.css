@@ -1,0 +1,296 @@
+/* ═══════════════════════════════════════════════════════════════
+   BASE — токени дизайну, скидання, типографіка, кнопки, утиліти
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Кольори ── */
+  --black:      #000000;
+  --surface-1:  #08080A;   /* тло сторінки під інтро */
+  --surface-2:  #0E0E11;   /* секції-«сходинки» */
+  --surface-3:  #141418;   /* картки */
+  --surface-4:  #1B1B20;   /* картки :hover */
+
+  --line:       rgba(255, 255, 255, 0.08);
+  --line-strong:rgba(255, 255, 255, 0.16);
+
+  --text:       #F5F5F7;
+  --text-dim:   #A1A1A8;
+  --text-mute:  #6E6E76;
+
+  --red:        #E82127;
+  --red-hi:     #FF3B41;
+  --red-glow:   rgba(232, 33, 39, 0.35);
+
+  /* ── Типографіка ──
+     Системний стек: нуль мережевих запитів, SF Pro на Apple-пристроях.
+     Саме те, що дає Apple-відчуття без 200 КБ вебшрифтів. */
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI",
+          Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Плавні розміри — clamp замість купи медіа-запитів */
+  --fs-hero:  clamp(2.5rem, 7vw, 5.5rem);
+  --fs-h2:    clamp(1.9rem, 4vw, 3.4rem);
+  --fs-h3:    clamp(1.15rem, 1.6vw, 1.4rem);
+  --fs-lead:  clamp(1.05rem, 1.6vw, 1.3rem);
+  --fs-body:  clamp(0.95rem, 1.1vw, 1.05rem);
+  --fs-sm:    0.875rem;
+  --fs-xs:    0.78rem;
+
+  /* ── Простір ── */
+  --gap:        clamp(1rem, 2vw, 1.5rem);
+  --section-y:  clamp(5rem, 12vh, 10rem);
+  --pad-x:      clamp(1.25rem, 5vw, 4rem);
+  --maxw:       1280px;
+  --maxw-narrow: 820px;
+
+  /* ── Форма ── */
+  --r-sm:  10px;
+  --r-md:  16px;
+  --r-lg:  24px;
+  --r-xl:  32px;
+  --r-pill: 999px;
+
+  /* ── Тіні: м'які, багатошарові, без «дешевого» чорного ореолу ── */
+  --sh-sm: 0 1px 2px rgba(0,0,0,.4);
+  --sh-md: 0 4px 24px rgba(0,0,0,.45);
+  --sh-lg: 0 24px 70px -20px rgba(0,0,0,.8);
+
+  /* ── Рух ── */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);   /* easeOutQuint — «дороге» сповільнення */
+  --dur:  0.5s;
+}
+
+/* ── Скидання ── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: auto;      /* прокруткою керує Lenis */
+}
+
+body {
+  margin: 0;
+  background: var(--black);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: var(--fs-body);
+  line-height: 1.65;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Поки інтро не завершилось — сторінка не має «підстрибувати» */
+body.is-intro-locked { overscroll-behavior-y: none; }
+
+h1, h2, h3, h4, p, figure, ul, ol, dl { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+img, svg, video { display: block; max-width: 100%; }
+img { height: auto; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { background: none; border: 0; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+
+/* Видимий фокус лише з клавіатури — вимога доступності Lighthouse */
+:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
+::selection { background: var(--red); color: #fff; }
+
+/* Прихований спрайт іконок */
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* ── Типографіка ── */
+.h2 {
+  font-size: var(--fs-h2);
+  line-height: 1.08;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  max-width: 20ch;
+  text-wrap: balance;
+}
+.h2 em {
+  font-style: normal;
+  color: var(--red);
+}
+.h3 {
+  font-size: var(--fs-h3);
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.eyebrow {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 1.25rem;
+}
+.section__lead {
+  font-size: var(--fs-lead);
+  color: var(--text-dim);
+  max-width: 56ch;
+  margin-top: 1.5rem;
+  text-wrap: pretty;
+}
+.muted { color: var(--text-mute); }
+
+/* ── Розкладка ── */
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--pad-x);
+}
+.container--narrow { max-width: var(--maxw-narrow); }
+
+.section {
+  position: relative;
+  padding-block: var(--section-y);
+}
+
+/* ── Іконки ── */
+.ico {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+  fill: none;
+}
+
+/* ── Кнопки ── */
+.btn {
+  --btn-bg: transparent;
+  --btn-fg: var(--text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  padding: 0.85em 1.6em;
+  border-radius: var(--r-pill);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  /* Анімуємо лише композиторські властивості + фон — без layout-thrash */
+  transition: transform var(--dur) var(--ease),
+              background-color var(--dur) var(--ease),
+              box-shadow var(--dur) var(--ease),
+              border-color var(--dur) var(--ease);
+  will-change: transform;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0) scale(0.98); transition-duration: 0.1s; }
+
+.btn--accent {
+  --btn-bg: var(--red);
+  --btn-fg: #fff;
+  box-shadow: 0 6px 24px -6px var(--red-glow);
+}
+.btn--accent:hover {
+  --btn-bg: var(--red-hi);
+  box-shadow: 0 12px 36px -8px var(--red-glow);
+}
+
+/* Скляна кнопка — glassmorphism рівно настільки, щоб його не помічали */
+.btn--ghost {
+  border: 1px solid var(--line-strong);
+  background: rgba(255, 255, 255, 0.04);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+.btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.btn--sm { padding: 0.6em 1.15em; font-size: var(--fs-xs); }
+.btn--lg { padding: 1.05em 2.1em; font-size: 1rem; }
+
+/* Стрілка «виїжджає» при наведенні — дрібниця, яка читається як якість */
+.btn .ico { transition: transform var(--dur) var(--ease); }
+.btn:hover .ico { transform: translateX(3px); }
+
+/* ── Доступність ── */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  z-index: 200;
+  padding: 0.75rem 1.25rem;
+  background: var(--red);
+  color: #fff;
+  border-radius: var(--r-sm);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  transition: top 0.25s var(--ease);
+}
+.skip-link:focus { top: 1rem; }
+
+/* Honeypot: ховаємо від людей, лишаємо видимим для ботів.
+   display:none деякі боти розпізнають — тому виносимо за екран. */
+.hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* ── Стартовий стан для анімацій ──
+     Ставимо в CSS, а не в JS: js/animations.js виконується вже після
+     першого кадру, тож інакше контент блимнув би у видимому стані й аж
+     потім сховався. Клас .no-js — аварійний вихід (див. нижче). */
+[data-reveal],
+[data-reveal-stagger] > *,
+[data-reveal-words] {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+[data-reveal],
+[data-reveal-stagger] > * {
+  transform: translateY(28px);
+}
+
+/* Послівна поява: маска + рядок, що виїжджає з-під неї */
+.word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  /* Запас під нижні виносні елементи (р, у, ц) — інакше маска їх зріже */
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+.word__in {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+html.no-js [data-reveal],
+html.no-js [data-reveal-stagger] > *,
+html.no-js [data-reveal-words] {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+/* ── Повага до prefers-reduced-motion ──
+     Не «вимикаємо все», а прибираємо саме рух. Логіка інтро в JS теж це читає. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .btn:hover { transform: none; }
+}

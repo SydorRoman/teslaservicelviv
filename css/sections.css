@@ -1,0 +1,918 @@
+/* ═══════════════════════════════════════════════════════════════
+   SECTIONS — хедер, контент-секції, форма, футер
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ══════════ ХЕДЕР ══════════ */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  /* Ховається, доки триває інтро — знімається класом у js/intro.js */
+  opacity: 0;
+  transform: translateY(-100%);
+  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease),
+              background-color 0.4s var(--ease), border-color 0.4s var(--ease);
+  border-bottom: 1px solid transparent;
+}
+.header.is-visible { opacity: 1; transform: none; }
+
+/* Тло зʼявляється лише коли сторінка відскролена */
+.header.is-scrolled {
+  background: rgba(8, 8, 10, 0.72);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  backdrop-filter: blur(20px) saturate(160%);
+  border-bottom-color: var(--line);
+}
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding: 0.9rem var(--pad-x);
+}
+
+.header__logo img { width: 168px; height: auto; }
+
+.nav { margin-left: auto; }
+.nav__list { display: flex; gap: clamp(0.5rem, 1.6vw, 1.75rem); }
+.nav__list a {
+  position: relative;
+  display: block;
+  padding: 0.4rem 0;
+  font-size: var(--fs-sm);
+  color: var(--text-dim);
+  transition: color var(--dur) var(--ease);
+}
+.nav__list a:hover { color: var(--text); }
+
+/* Підкреслення, що росте від центру */
+.nav__list a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--red);
+  transform: scaleX(0);
+  transition: transform var(--dur) var(--ease);
+}
+.nav__list a:hover::after { transform: scaleX(1); }
+
+.header__cta { margin-left: 0.5rem; }
+
+/* Бургер */
+.burger {
+  display: none;
+  width: 44px;
+  height: 44px;
+  margin-left: auto;
+  position: relative;
+}
+.burger span {
+  position: absolute;
+  left: 11px;
+  width: 22px;
+  height: 1.5px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform 0.4s var(--ease), opacity 0.3s var(--ease);
+}
+.burger span:nth-child(1) { top: 18px; }
+.burger span:nth-child(2) { top: 25px; }
+.burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(3.5px) rotate(45deg); }
+.burger[aria-expanded="true"] span:nth-child(2) { transform: translateY(-3.5px) rotate(-45deg); }
+
+/* ══════════ ЗАГАЛЬНІ СЕКЦІЇ ══════════ */
+.section--about     { background: var(--surface-1); }
+.section--advantages{ background: var(--surface-2); }
+.section--services  { background: var(--surface-1); }
+.section--models    { background: var(--surface-2); }
+.section--process   { background: var(--surface-1); }
+.section--gallery   { background: var(--surface-2); }
+.section--reviews   { background: var(--surface-1); }
+.section--faq       { background: var(--surface-2); }
+.section--contacts  { background: var(--surface-1); }
+
+/* ══════════ ПРО НАС ══════════ */
+.about__grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: clamp(2rem, 6vw, 5rem);
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+  align-items: start;
+}
+.about__text p {
+  color: var(--text-dim);
+  font-size: var(--fs-lead);
+  max-width: 62ch;
+  text-wrap: pretty;
+}
+.about__text p + p { margin-top: 1.4rem; }
+
+.about__stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--line);          /* лінії-роздільники через gap */
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.stat {
+  background: var(--surface-1);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+}
+.stat__num {
+  display: block;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;  /* цифри не «стрибають» при відліку */
+}
+.stat__label {
+  display: block;
+  margin-top: 0.6rem;
+  font-size: var(--fs-sm);
+  color: var(--text-mute);
+  line-height: 1.4;
+}
+
+/* ══════════ КАРТКИ ══════════ */
+.cards {
+  display: grid;
+  gap: var(--gap);
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+}
+.cards--3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+.card {
+  position: relative;
+  padding: clamp(1.5rem, 2.5vw, 2rem);
+  background: var(--surface-3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  transition: background-color var(--dur) var(--ease),
+              border-color var(--dur) var(--ease),
+              transform var(--dur) var(--ease);
+  will-change: transform;
+}
+.card:hover {
+  background: var(--surface-4);
+  border-color: var(--line-strong);
+  transform: translateY(-4px);
+}
+
+/* Червона нитка вгорі картки — зʼявляється при наведенні */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--red), transparent);
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease);
+}
+.card:hover::before { opacity: 1; }
+
+.card__ico {
+  width: 26px;
+  height: 26px;
+  color: var(--red);
+  margin-bottom: 1.25rem;
+  fill: none;
+}
+.card__title {
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin-bottom: 0.6rem;
+}
+.card__text {
+  font-size: var(--fs-sm);
+  color: var(--text-mute);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.services__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-top: clamp(2.5rem, 5vh, 3.5rem);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: linear-gradient(180deg, var(--surface-3), transparent);
+}
+.services__foot p { font-size: var(--fs-lead); max-width: 46ch; }
+
+/* ══════════ МОДЕЛІ ══════════ */
+.models {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--gap);
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+}
+.model {
+  position: relative;
+  padding: clamp(1.75rem, 3vw, 2.5rem);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--surface-3);
+  overflow: hidden;
+  transition: border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+  will-change: transform;
+}
+.model:hover { border-color: var(--line-strong); transform: translateY(-4px); }
+
+/* Велика напівпрозора літера моделі як фоновий елемент */
+.model__badge {
+  position: absolute;
+  top: -0.15em;
+  right: 0.1em;
+  font-size: 8rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  color: rgba(255, 255, 255, 0.035);
+  pointer-events: none;
+  transition: color var(--dur) var(--ease);
+}
+.model:hover .model__badge { color: rgba(232, 33, 39, 0.14); }
+
+/* Двосимвольний бейдж ("CT") — 8rem розраховано на один символ (S/3/X/Y),
+   тож просто зменшуємо розмір, а не переносимо в окрему систему розмірів. */
+.model__badge--wide { font-size: 4.5rem; top: 0.05em; }
+
+.model__title {
+  position: relative;
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+}
+.model__text {
+  position: relative;
+  font-size: var(--fs-sm);
+  color: var(--text-mute);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+.model__years {
+  display: inline-block;
+  margin-top: 1.25rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  font-size: var(--fs-xs);
+  color: var(--text-mute);
+  font-variant-numeric: tabular-nums;
+}
+.models__note {
+  margin-top: 2rem;
+  color: var(--text-mute);
+  font-size: var(--fs-sm);
+}
+
+/* ══════════ ЯК ПРАЦЮЄМО ══════════ */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+}
+.step {
+  position: relative;
+  padding-top: 2rem;
+  border-top: 1px solid var(--line);
+}
+/* Червона крапка на лінії — маркер кроку */
+.step::before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--red);
+}
+.step__num {
+  display: block;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--red);
+  margin-bottom: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+.step__title {
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.6rem;
+}
+.step__text {
+  font-size: var(--fs-sm);
+  color: var(--text-mute);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+/* ══════════ ГАЛЕРЕЯ ══════════ */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--gap);
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+}
+.gallery__item {
+  grid-column: span 2;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--surface-3);
+  border: 1px solid var(--line);
+  aspect-ratio: 4 / 3;
+}
+.gallery__item--wide { grid-column: span 3; }
+.gallery__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s var(--ease);
+  will-change: transform;
+}
+.gallery__item:hover img { transform: scale(1.04); }
+
+/* ══════════ НАШІ ФОТО (горизонтальний скролер) ══════════
+   .section--photos не додає власного padding-block знизу під трек —
+   трек навмисно full-bleed (поза .container), тому немає горизонтального
+   padding, за який відповідав би контейнер. */
+.section--photos { overflow: hidden; }         /* стрілки не тягнуть горизонтальний скрол сторінки */
+
+.photostrip {
+  position: relative;
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+}
+
+.photostrip__track {
+  display: flex;
+  gap: var(--gap);
+  overflow-x: auto;
+  /* proximity, а не mandatory: mandatory форсує прив'язку на КОЖНЕ
+     програмне присвоєння scrollLeft (навіть щоб зсунути на кілька px),
+     через що покрокове гортання колесом миші/main.js смикалося б назад
+     до найближчої картки замість плавного руху. proximity прив'язує
+     лише коли скрол уже зупинився поруч із межею картки. */
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  padding-inline: var(--pad-x);
+  /* Нативний скролбар ховаємо — навігація через стрілки/свайп/колесо,
+     це не таблиця даних, де скролбар потрібен як орієнтир. */
+  scrollbar-width: none;
+}
+.photostrip__track::-webkit-scrollbar { display: none; }
+
+.photostrip__item {
+  flex: none;
+  scroll-snap-align: start;
+  width: clamp(230px, 28vw, 320px);
+  aspect-ratio: 3 / 4;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--surface-3);
+  border: 1px solid var(--line);
+}
+.photostrip__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease);
+  will-change: transform;
+}
+.photostrip__item:hover img { transform: scale(1.045); }
+
+/* Стрілки — поверх треку, по центру висоти, з'являються на ховері секції */
+.photostrip__nav {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: rgba(20, 20, 24, 0.75);
+  color: var(--text);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease),
+              background-color var(--dur) var(--ease),
+              transform 0.2s var(--ease);
+}
+.photostrip:hover .photostrip__nav,
+.photostrip__nav:focus-visible { opacity: 1; }
+.photostrip__nav:hover { background: rgba(32, 32, 38, 0.9); }
+.photostrip__nav:active { transform: translateY(-50%) scale(0.94); }
+
+.photostrip__nav--prev { left: clamp(0.5rem, 2vw, 1.5rem); transform: translateY(-50%); }
+.photostrip__nav--prev .ico { transform: rotate(180deg); }
+.photostrip__nav--next { right: clamp(0.5rem, 2vw, 1.5rem); transform: translateY(-50%); }
+.photostrip__nav--prev:active { transform: translateY(-50%) scale(0.94) rotate(180deg); }
+
+@media (max-width: 640px) {
+  /* На тачі свайп і так природний — стрілки лише заважали б пальцю */
+  .photostrip__nav { display: none; }
+}
+
+/* ══════════ ВІДГУКИ ══════════ */
+.reviews {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--gap);
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+}
+.review {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.75rem;
+  padding: clamp(1.75rem, 3vw, 2.25rem);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--surface-3);
+}
+.review__text {
+  font-size: var(--fs-lead);
+  line-height: 1.55;
+  letter-spacing: -0.015em;
+  text-wrap: pretty;
+}
+.review__author {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+.review__name { font-size: var(--fs-sm); font-weight: 600; }
+.review__car  { font-size: var(--fs-xs); color: var(--text-mute); }
+
+/* ══════════ FAQ ══════════ */
+.faq { margin-top: clamp(2.5rem, 6vh, 4rem); }
+
+.faq__item {
+  border-bottom: 1px solid var(--line);
+}
+.faq__q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  cursor: pointer;
+  list-style: none;
+  transition: color var(--dur) var(--ease);
+}
+.faq__q::-webkit-details-marker { display: none; }
+.faq__q:hover { color: var(--red); }
+
+.faq__ico {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  color: var(--text-mute);
+  fill: none;
+  transition: transform 0.45s var(--ease), color var(--dur) var(--ease);
+}
+.faq__item[open] .faq__ico { transform: rotate(45deg); color: var(--red); }
+
+.faq__a {
+  padding-bottom: 1.5rem;
+  color: var(--text-mute);
+  font-size: var(--fs-body);
+  line-height: 1.7;
+  max-width: 68ch;
+  text-wrap: pretty;
+}
+
+/* ══════════ КОНТАКТИ ══════════ */
+.contacts {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+}
+
+.contacts__info {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.contacts__row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas: "ico label" "ico value";
+  column-gap: 1rem;
+  align-items: start;
+  padding: 1.4rem clamp(1.25rem, 2.5vw, 1.75rem);
+  background: var(--surface-3);
+  transition: background-color var(--dur) var(--ease);
+}
+.contacts__row + .contacts__row { border-top: 1px solid var(--line); }
+.contacts__row:not(.contacts__row--static):hover { background: var(--surface-4); }
+
+.contacts__ico {
+  grid-area: ico;
+  width: 20px;
+  height: 20px;
+  margin-top: 0.55rem;
+  color: var(--red);
+  fill: none;
+}
+.contacts__label {
+  grid-area: label;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+.contacts__value {
+  grid-area: value;
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.45;
+}
+
+/* ── Карта ── */
+.map {
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--surface-3);
+  min-height: 380px;
+  position: relative;
+}
+.map__placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 2rem;
+  /* Сітка «під карту» — щоб заглушка не виглядала як помилка завантаження */
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+.map__pin { width: 32px; height: 32px; color: var(--red); fill: none; }
+.map__text { font-size: var(--fs-sm); color: var(--text-dim); }
+.map__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: var(--fs-xs);
+  color: var(--text-mute);
+  transition: color var(--dur) var(--ease);
+}
+.map__link:hover { color: var(--red); }
+.map iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+/* ══════════ ФОРМА ══════════ */
+.booking {
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+  padding: clamp(1.75rem, 4vw, 3.5rem);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  background:
+    radial-gradient(90% 120% at 50% 0%, rgba(232, 33, 39, 0.07), transparent 60%),
+    var(--surface-3);
+  scroll-margin-top: 100px;    /* якір не ховається під фіксованим хедером */
+}
+.booking__head { max-width: 52ch; margin-bottom: clamp(1.75rem, 3vh, 2.5rem); }
+.booking__head p { margin-top: 0.6rem; color: var(--text-mute); }
+
+.form__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--gap);
+}
+.field { display: flex; flex-direction: column; gap: 0.5rem; }
+.field--full { grid-column: 1 / -1; }
+
+.field__label {
+  font-size: var(--fs-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+.field__input {
+  padding: 0.95rem 1.15rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  color: var(--text);
+  font-size: 1rem;              /* < 16px = iOS зумить сторінку при фокусі */
+  transition: border-color var(--dur) var(--ease),
+              background-color var(--dur) var(--ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.field__input::placeholder { color: var(--text-mute); }
+.field__input:hover { border-color: var(--line-strong); }
+.field__input:focus {
+  outline: none;
+  border-color: var(--red);
+  background: rgba(255, 255, 255, 0.06);
+}
+.field__textarea { resize: vertical; min-height: 120px; font-family: inherit; }
+
+/* Власна стрілка селекта — нативна на темному тлі виглядає чужорідно */
+.field__input--select {
+  cursor: pointer;
+  padding-right: 2.75rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236E6E76' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 18px;
+}
+.field__input--select option { background: var(--surface-3); color: var(--text); }
+
+.field__err {
+  font-size: var(--fs-xs);
+  color: var(--red-hi);
+  min-height: 1em;
+}
+.field__input.is-invalid { border-color: var(--red); }
+
+.form__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: clamp(1.5rem, 3vh, 2rem);
+}
+.form__note {
+  font-size: var(--fs-xs);
+  color: var(--text-mute);
+  max-width: 42ch;
+  line-height: 1.5;
+}
+.form__status {
+  margin-top: 1.25rem;
+  font-size: var(--fs-sm);
+  min-height: 1.5em;
+}
+.form__status.is-ok  { color: #4ADE80; }
+.form__status.is-err { color: var(--red-hi); }
+
+/* Стан «відправляється» */
+.btn.is-loading { pointer-events: none; opacity: 0.65; }
+.btn.is-loading .btn__label::after {
+  content: "";
+  display: inline-block;
+  width: 0.8em; height: 0.8em;
+  margin-left: 0.5em;
+  border: 2px solid rgba(255,255,255,.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: -1px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ══════════ ФІНАЛЬНИЙ CTA ══════════ */
+.cta {
+  position: relative;
+  padding-block: clamp(6rem, 16vh, 12rem);
+  background: var(--black);
+  text-align: center;
+  overflow: hidden;
+}
+/* Червоне сяйво знизу — єдине місце, де ми дозволяємо собі колір */
+.cta__glow {
+  position: absolute;
+  left: 50%;
+  bottom: -50%;
+  width: min(120vw, 1400px);
+  height: 700px;
+  transform: translateX(-50%);
+  background: radial-gradient(50% 50% at 50% 50%,
+              rgba(232, 33, 39, 0.22) 0%,
+              rgba(232, 33, 39, 0.05) 45%,
+              transparent 70%);
+  pointer-events: none;
+}
+.cta .container { position: relative; z-index: 1; }
+.cta__title {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin-inline: auto;
+  text-wrap: balance;
+}
+.cta__sub {
+  margin-top: 1.25rem;
+  font-size: var(--fs-lead);
+  color: var(--text-dim);
+}
+.cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.85rem;
+  margin-top: clamp(2rem, 5vh, 3rem);
+}
+
+/* ══════════ ФУТЕР ══════════ */
+.footer {
+  padding-block: clamp(3rem, 8vh, 5rem) 2rem;
+  background: var(--surface-1);
+  border-top: 1px solid var(--line);
+}
+.footer__top {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  padding-bottom: clamp(2.5rem, 5vh, 3.5rem);
+  border-bottom: 1px solid var(--line);
+}
+.footer__brand img { width: 180px; height: auto; }
+.footer__tag {
+  margin-top: 1rem;
+  font-size: var(--fs-sm);
+  color: var(--text-mute);
+  max-width: 34ch;
+}
+.footer__nav {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 2rem;
+}
+.footer__h {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+.footer__col ul { display: flex; flex-direction: column; gap: 0.6rem; }
+.footer__col a {
+  font-size: var(--fs-sm);
+  color: var(--text-mute);
+  transition: color var(--dur) var(--ease);
+}
+.footer__col a:hover { color: var(--text); }
+.footer__col span { font-size: var(--fs-sm); }
+
+.footer__bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-top: 2rem;
+}
+.footer__copy { font-size: var(--fs-xs); color: var(--text-mute); }
+.footer__disclaimer {
+  font-size: var(--fs-xs);
+  color: var(--text-mute);
+  opacity: 0.65;
+  line-height: 1.6;
+  max-width: 90ch;
+}
+
+/* ══════════ АДАПТИВ ══════════ */
+@media (max-width: 1024px) {
+  .about__grid    { grid-template-columns: 1fr; }
+  .contacts       { grid-template-columns: 1fr; }
+  .footer__top    { grid-template-columns: 1fr; }
+  .gallery__item,
+  .gallery__item--wide { grid-column: span 3; }
+}
+
+@media (max-width: 860px) {
+  /* Мобільне меню: повноекранна панель замість горизонтального списку */
+  .burger { display: block; }
+  .header__cta { display: none; }
+
+  /* .header.is-scrolled має backdrop-filter, а це за специфікацією CSS
+     робить елемент containing block для нащадків із position:fixed —
+     inset:0 на .nav рахувався б відносно ~70px-заввишки хедера, а не
+     вьюпорта, і повноекранне меню стискалось би в смужку. Раніше це
+     обходили через 100vw/100dvh, але vw-одиниці рахуються від
+     window.innerWidth (включно зі смугою прокрутки на десктопі), тоді як
+     решта лейауту — від clientWidth (без неї), що саме по собі давало б
+     горизонтальний скрол на вузьких десктопних вікнах. Правильний фікс —
+     нижче: клас .header--menu-open знімає backdrop-filter із хедера,
+     поки меню відкрите (js/main.js), і .nav спокійно лишається на
+     inset:0 відносно справжнього вьюпорта. */
+  /* .header.header--menu-open (два класи), а не просто .header--menu-open:
+     потрібна специфічність не нижча за .header.is-scrolled (теж два класи),
+     інакше .is-scrolled все одно вигравав би за специфічністю незалежно
+     від порядку правил у файлі, і backdrop-filter не знімався б. */
+  .header.header--menu-open {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .nav {
+    position: fixed;
+    inset: 0;
+    margin: 0;
+    background: rgba(8, 8, 10, 0.96);
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+    display: grid;
+    place-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s var(--ease), visibility 0.4s;
+  }
+  .nav.is-open { opacity: 1; visibility: visible; }
+
+  .nav__list {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .nav__list a { font-size: 1.5rem; color: var(--text); }
+  .nav__list a::after { display: none; }
+}
+
+@media (max-width: 640px) {
+  .about__stats   { grid-template-columns: 1fr; }
+  .form__grid     { grid-template-columns: 1fr; }
+  .gallery        { grid-template-columns: 1fr; }
+  .gallery__item,
+  .gallery__item--wide { grid-column: span 1; }
+  .services__foot { flex-direction: column; align-items: flex-start; }
+  .h2             { max-width: none; }
+  .model__badge   { font-size: 6rem; }
+}
+
+/* ══════════ ПЛАВАЮЧА КНОПКА ДЗВІНКА ══════════
+   Завжди на екрані (fixed), знизу справа, на будь-якій ширині — не
+   прив'язана до scroll/header, бо хтось може захотіти подзвонити одразу,
+   ще на інтро. Просте tel:-посилання, JS не потрібен. */
+.call-fab {
+  position: fixed;
+  right: clamp(1rem, 4vw, 2rem);
+  bottom: max(clamp(1rem, 4vw, 2rem), env(safe-area-inset-bottom));
+  z-index: 90;
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--red);
+  color: #fff;
+  box-shadow: 0 10px 30px -6px var(--red-glow), var(--sh-md);
+  transition: transform var(--dur) var(--ease), background-color var(--dur) var(--ease);
+}
+.call-fab:hover { background: var(--red-hi); transform: translateY(-2px) scale(1.04); }
+.call-fab:active { transform: translateY(0) scale(0.96); transition-duration: 0.1s; }
+.call-fab .ico { width: 24px; height: 24px; fill: none; }
+
+/* Тихий пульсуючий ореол позаду кнопки — привертає погляд, не дратуючи.
+   Респектує prefers-reduced-motion через глобальне правило в base.css. */
+.call-fab__pulse {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 50%;
+  background: var(--red);
+  opacity: 0.55;
+  animation: call-fab-pulse 2.4s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes call-fab-pulse {
+  0%   { transform: scale(1);   opacity: 0.5; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+@media (max-width: 640px) {
+  .call-fab { width: 52px; height: 52px; }
+  .call-fab .ico { width: 22px; height: 22px; }
+}

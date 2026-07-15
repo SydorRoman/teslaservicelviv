@@ -1,0 +1,38 @@
+<!-- PLACEHOLDER: замініть реальним фото (Калібрування камер). Формат: WebP/AVIF, 4:3, ~1600x1200. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Калібрування камер">
+  <rect width="800" height="600" fill="#141418"/>
+  <g stroke="#1F1F25" stroke-width="1">
+    <path d="M50 0v600"/>
+    <path d="M100 0v600"/>
+    <path d="M150 0v600"/>
+    <path d="M200 0v600"/>
+    <path d="M250 0v600"/>
+    <path d="M300 0v600"/>
+    <path d="M350 0v600"/>
+    <path d="M400 0v600"/>
+    <path d="M450 0v600"/>
+    <path d="M500 0v600"/>
+    <path d="M550 0v600"/>
+    <path d="M600 0v600"/>
+    <path d="M650 0v600"/>
+    <path d="M700 0v600"/>
+    <path d="M750 0v600"/>
+    <path d="M0 50h800"/>
+    <path d="M0 100h800"/>
+    <path d="M0 150h800"/>
+    <path d="M0 200h800"/>
+    <path d="M0 250h800"/>
+    <path d="M0 300h800"/>
+    <path d="M0 350h800"/>
+    <path d="M0 400h800"/>
+    <path d="M0 450h800"/>
+    <path d="M0 500h800"/>
+    <path d="M0 550h800"/>
+  </g>
+  <circle cx="400" cy="270" r="54" fill="none" stroke="#E82127" stroke-width="1.5" opacity=".5"/>
+  <path d="M383 270h34M400 253v34" stroke="#E82127" stroke-width="1.5" opacity=".5" stroke-linecap="round"/>
+  <text x="400" y="368" fill="#6E6E76" font-family="-apple-system, Segoe UI, sans-serif"
+        font-size="20" font-weight="500" text-anchor="middle">Калібрування камер</text>
+  <text x="400" y="396" fill="#3A3A42" font-family="-apple-system, Segoe UI, sans-serif"
+        font-size="13" text-anchor="middle">фото буде тут</text>
+</svg>

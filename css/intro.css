@@ -1,0 +1,144 @@
+/* ═══════════════════════════════════════════════════════════════
+   INTRO — логотип видно одразу, заголовок зʼявляється зі скролом,
+   короткий пін тримає CTA стабільним
+
+   Логотип і атмосферна імла статичні — видно в першому ж кадрі, без
+   анімації. Заголовок («Tesla Service» / «Львів»), підзаголовок і CTA
+   ховаються за замовчуванням (opacity:0 нижче) і проявляються по
+   js/intro.js через ScrollTrigger. Пін короткий (≈1 екран, js/intro.js
+   PIN_VH_FRACTION) — не кінематографічна 5-екранна версія з попередніх
+   ітерацій, а рівно стільки, щоб CTA встиг з'явитись і постояти
+   нерухомо, поки користувач не влучить по ньому пальцем.
+
+   Принцип продуктивності: анімуються лише opacity і transform. Жодних
+   blur/box-shadow/width на таймлайні — вони змушують браузер
+   перемальовувати кадр.
+   ═══════════════════════════════════════════════════════════════ */
+
+.intro {
+  position: relative;
+  background: var(--black);
+  /* Обовʼязково. Під час піна сцена стає position:fixed, а всі .section
+     нижче мають position:relative — тобто теж позиціоновані. Серед
+     позиціонованих елементів із z-index:auto виграє той, хто пізніше в
+     DOM, тож секція «Про нас» замальовувала б собою запінену сцену. */
+  z-index: 2;
+}
+
+.intro__stage {
+  position: relative;
+  height: 100svh;           /* не vh — інакше на iOS панель браузера обрізає низ */
+  min-height: 560px;
+  width: 100%;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: var(--black);
+}
+
+/* Легка віньєтка: тримає погляд у центрі, як у кіно */
+.intro__stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 50% 55%,
+              transparent 40%, rgba(0,0,0,.55) 78%, #000 100%);
+  z-index: 2;
+}
+
+/* ── Атмосферна імла ──────────────────────────────────────────
+   Суто декоративний фон позаду тексту. Статична — видно одразу,
+   разом із логотипом, без анімації. */
+.glow {
+  position: absolute;
+  will-change: opacity, transform;
+  mix-blend-mode: screen;      /* світло додається, а не накладається */
+}
+
+.glow--ambient {
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: min(120vw, 1900px);
+  height: 900px;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+  background: radial-gradient(50% 50% at 50% 50%,
+              rgba(120, 165, 230, 0.16) 0%,
+              rgba(60, 100, 180, 0.05) 45%,
+              transparent 70%);
+}
+
+/* ── Контент ────────────────────────────────────────────────── */
+.intro__content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-inline: var(--pad-x);
+}
+
+/* Видимий одразу, без анімації — «зразу коли заходиш пише логотип» */
+.intro__logo {
+  width: clamp(180px, 22vw, 260px);
+  height: auto;
+  margin-bottom: clamp(1.25rem, 3vh, 2rem);
+}
+
+.intro__title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: var(--fs-hero);
+  line-height: 0.98;
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  margin: 0;
+}
+
+.intro__sub {
+  margin-top: clamp(0.75rem, 2vh, 1.25rem);
+  font-size: var(--fs-lead);
+  font-weight: 400;
+  color: var(--text-dim);
+  letter-spacing: -0.015em;
+}
+
+/* Рядки-обгортки: кожен рядок їде з-під власної маски.
+   overflow:hidden на батькові + translateY на дитині = «дорогий» reveal.
+   Заголовок — два окремі рядки («Tesla Service» і «Львів»), кожен зі
+   своєю маскою, тож вони проявляються послідовно, а не разом. */
+.intro__title-row,
+.intro__sub { overflow: hidden; }
+
+.intro__line {
+  display: inline-block;
+  transform: translateY(110%);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.intro__cta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.85rem;
+  margin-top: clamp(1.5rem, 4vh, 2.5rem);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* ── Без анімації руху ──────────────────────────────────────────
+   Логотип і імла й так статичні. Тут лишається підняти тільки те, що
+   за замовчуванням сховане — заголовок і CTA. */
+@media (prefers-reduced-motion: reduce) {
+  .intro__cta { opacity: 1; }
+  .intro__line { transform: none; opacity: 1; }
+}
+
+/* Те саме, якщо JS не виконався взагалі. */
+html.no-js .intro__cta { opacity: 1; }
+html.no-js .intro__line { transform: none; opacity: 1; }

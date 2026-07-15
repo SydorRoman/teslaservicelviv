@@ -1,0 +1,8 @@
+# PLACEHOLDER: замініть домен на реальний
+User-agent: *
+Allow: /
+
+# Ендпоінт заявок індексувати нема сенсу
+Disallow: /api/
+
+Sitemap: https://teslaservice-lviv.com.ua/sitemap.xml
