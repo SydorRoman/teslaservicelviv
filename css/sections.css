@@ -125,14 +125,21 @@
 .stat {
   background: var(--surface-1);
   padding: clamp(1.5rem, 3vw, 2.25rem);
+  /* Grid-елементи за замовчуванням мають min-width:auto — не стискаються
+     менше за вміст. Довгі числа («1 200+», «24 міс») на певних десктопних
+     ширинах не влазили в половину картки й вилазили за межі .about__stats,
+     де overflow:hidden обрізав їх напівслова. min-width:0 дозволяє клітинці
+     реально стиснутись до 1fr, а тексту — перенестись на пробілі. */
+  min-width: 0;
 }
 .stat__num {
   display: block;
-  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-size: clamp(1.6rem, 3vw, 3rem);
   font-weight: 600;
   letter-spacing: -0.04em;
   line-height: 1;
   font-variant-numeric: tabular-nums;  /* цифри не «стрибають» при відліку */
+  overflow-wrap: break-word;
 }
 .stat__label {
   display: block;
