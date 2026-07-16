@@ -38,7 +38,7 @@
     // людині може бути зле. Нативний скрол лишається.
     if (prefersReducedMotion || !window.Lenis) return;
 
-    const lenis = new Lenis({
+    const lenisOptions = {
       duration: 1.15,
       // Експоненційне сповільнення — «важкий», дорогий скрол як на apple.com
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -48,7 +48,18 @@
       // і ламає overscroll на iOS.
       syncTouch: false,
       touchMultiplier: 1.6,
-    });
+    };
+
+    let lenis;
+    try {
+      // Не чіпаємо вкладені overflow-контейнери (стрічка «Наші фото»).
+      lenis = new Lenis({
+        ...lenisOptions,
+        prevent: (node) => Boolean(node.closest?.('.photostrip__track')),
+      });
+    } catch {
+      lenis = new Lenis(lenisOptions);
+    }
 
     App.lenis = lenis;
 
@@ -290,6 +301,13 @@
       if ((e.deltaY < 0 && atStart) || (e.deltaY > 0 && atEnd)) return;
 
       e.preventDefault();
+      // Обовʼязково: без цього подія все одно спливає до window, де її
+      // ловить Lenis (він працює з ВІРТУАЛЬНИМ скролом і не завжди
+      // зупиняється лише через preventDefault() чужого обробника) — і
+      // сторінка скролилась би вертикально ОДНОЧАСНО з горизонтальним
+      // рухом стрічки. stopPropagation гарантує, що Lenis узагалі не
+      // побачить цю подію, поки стрічку є куди прокручувати.
+      e.stopPropagation();
       // scrollBy(), а не пряме присвоєння scrollLeft: коректніше узгоджується
       // зі scroll-snap-type під час активного жесту (не «стрибає» назад до
       // найближчої картки на кожен проміжний виклик).

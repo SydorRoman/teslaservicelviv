@@ -17,18 +17,17 @@ _headers  robots.txt  sitemap.xml
 ## ⚠️ Що ОБОВʼЯЗКОВО замінити перед публікацією
 
 Плейсхолдери свідомо зроблені очевидними (`000`, `username`), щоб їх не можна
-було випадково залишити. Знайти всі: `grep -rn "PLACEHOLDER\|teslaservice-lviv.com.ua\|t.me/username" .`
+було випадково залишити. Знайти всі: `grep -rn "PLACEHOLDER\|teslaservicelviv.com\|t.me/Slav9091" .`
 
 ✅ **Телефон уже вставлено:** `+380 93 586 60 15` — контакти, футер, CTA, Viber, JSON-LD.
 ✅ **Адреса й карта вже вставлені:** вул. Зелена, 251в, Львів, 79027
-(49.8058, 24.0645) — контакти, футер, JSON-LD, embed-карта. Отримано
-зворотним геокодуванням із посилання Google Maps, яке надав користувач;
-перед публікацією варто звірити номер будинку й наявність таблички на місці.
+(49.8058, 24.0645) — контакти, футер, JSON-LD, embed-карта.
+✅ **Telegram:** `@Slav9091` · **Instagram:** `@teslaservicelvivslava`
 
 | Що | Де |
 |---|---|
-| Домен `teslaservice-lviv.com.ua` | `index.html` (canonical, OG, JSON-LD), `robots.txt`, `sitemap.xml` |
-| Telegram / Viber | `index.html` — контакти, футер |
+| Домен `teslaservicelviv.com` | `index.html` (canonical, OG, JSON-LD), `robots.txt`, `sitemap.xml` |
+| Telegram / Instagram / Viber | `index.html` — контакти, футер, `sameAs` у JSON-LD |
 | Години роботи | `index.html` — контакти, футер **і** `openingHoursSpecification` у JSON-LD |
 | Фото галереї | `assets/images/gallery-*.svg` → реальні WebP/AVIF |
 | OG-картинка | `assets/images/og-cover.jpg` (1200×630) — зараз її **немає** |
@@ -36,11 +35,10 @@ _headers  robots.txt  sitemap.xml
 
 ### Відгуки — окремо
 
-Тексти в секції `#reviews` **вигадані** як приклад верстки, імена стоять як
-`[Імʼя клієнта]`. Замініть на реальні. З тієї ж причини в розмітці Schema.org
+Тексти в `#reviews` можуть бути умовними для верстки; у Schema.org
 **свідомо немає** `aggregateRating` і `review`: вигадані оцінки в структурованих
-даних — це підробні свідчення й пряме порушення правил Google, за яке сайт
-втрачає розширені сніпети. Додавайте їх лише разом із реальними відгуками.
+даних — це підробні свідчення й пряме порушення правил Google. Додавайте їх
+лише разом із реальними підтвердженими відгуками.
 
 ### Логотип і назва — юридичний момент
 
